@@ -82,6 +82,7 @@ const MovieDetails = () => {
               <li className={styles.additionalItem}>
                 <NavLink
                   to="cast"
+                  state={{ back: location.state.back }}
                   className={({ isActive }) =>
                     isActive ? styles.active : styles.link
                   }
@@ -93,6 +94,7 @@ const MovieDetails = () => {
               <li>
                 <NavLink
                   to="reviews"
+                  state={{ back: location.state.back }}
                   className={({ isActive }) =>
                     isActive ? styles.active : styles.link
                   }
