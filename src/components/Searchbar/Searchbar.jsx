@@ -6,7 +6,7 @@ import styles from './Searchbar.module.css';
 
 export const Searchbar = ({ getMoviesFromInput }) => {
   const [input, setInput] = useState('');
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const handleInput = e => {
     setInput(e.target.value);
