@@ -1,6 +1,6 @@
 import Gallery from 'components/Gallery/Gallery';
 import { Searchbar } from 'components/Searchbar/Searchbar';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovie } from 'Servises/moviesAPI';
@@ -16,7 +16,7 @@ const Movies = () => {
     setSearchParams({ query });
   };
 
-  const fetch = useMemo(() => {
+  useEffect(() => {
     if (!query) {
       return;
     }

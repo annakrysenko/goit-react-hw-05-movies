@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styles from './Gallery.module.css';
 
 const Gallery = ({ movies, location }) => {
+  console.log(movies);
   const backState = location.pathname + location.search;
 
   return (
