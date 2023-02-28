@@ -1,4 +1,3 @@
-// import styles from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useState } from 'react';

@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovie } from 'Servises/moviesAPI';
 
+// const Searchbar = lazy(() => import('../../components/Searchbar/Searchbar'));
+// const Gallery = lazy(() => import('../../components/Gallery/Gallery'));
+
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
@@ -37,7 +40,9 @@ const Movies = () => {
 
   return (
     <>
+      {/* <Suspense fallback={<Loader />}> */}
       <Searchbar getMoviesFromInput={getMoviesFromInput} />
+      {/* </Suspense> */}
       {isLoader && <Loader />}
       <Gallery movies={movies} location={location} />
     </>
