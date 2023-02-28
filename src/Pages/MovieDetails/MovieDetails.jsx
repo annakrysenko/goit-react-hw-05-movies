@@ -10,6 +10,7 @@ import {
 import { useState, useEffect } from 'react';
 import { getMovieDetails } from 'Servises/moviesAPI';
 import styles from './MovieDetails.module.css';
+import { Loader } from 'components/Loader/Loader';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 
@@ -18,12 +19,19 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { data } = await getMovieDetails(movieId);
-
-      setMovie(data);
+      setIsLoader(true);
+      try {
+        const { data } = await getMovieDetails(movieId);
+        setMovie(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoader(false);
+      }
     })();
     return () => {
       setMovie(null);
@@ -37,15 +45,16 @@ const MovieDetails = () => {
 
   return (
     <>
+      <button
+        onClick={() => navigate(location.state.back)}
+        type="button"
+        className={styles.back}
+      >
+        Back
+      </button>
+      {isLoader && <Loader />}
       {movie && (
         <>
-          <button
-            onClick={() => navigate(location.state.back)}
-            type="button"
-            className={styles.back}
-          >
-            Back
-          </button>
           <div className={styles.container}>
             <img
               src={

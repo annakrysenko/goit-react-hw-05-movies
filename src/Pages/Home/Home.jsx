@@ -1,24 +1,35 @@
 import React from 'react';
 import { getTrending } from 'Servises/moviesAPI';
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './Home.module.css';
+import { Loader } from 'components/Loader/Loader';
 
 const Home = () => {
   const [trendMovies, setTrendMovies] = useState([]);
-  const location = useLocation();
-  console.log(location);
+  const [isLoader, setIsLoader] = useState(false);
+
+  // const location = useLocation();
+  // console.log(location);
 
   useEffect(() => {
     (async () => {
-      const { data } = await getTrending();
-      setTrendMovies(data.results);
+      setIsLoader(true);
+      try {
+        const { data } = await getTrending();
+        setTrendMovies(data.results);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoader(false);
+      }
     })();
   }, []);
 
   return (
     <>
       <h1 className={styles.title}>Trending movies</h1>
+      {isLoader && <Loader />}
       <ul className={styles.list}>
         {trendMovies.map(movie => {
           return (

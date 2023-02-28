@@ -1,3 +1,4 @@
+import { Loader } from 'components/Loader/Loader';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,21 +10,25 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 const Cast = () => {
   const [cast, setCast] = useState(null);
   const { movieId } = useParams();
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoader(true);
       try {
         const { data } = await getMovieCredits(movieId);
         setCast(data.cast);
-        console.log(data.cast);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoader(false);
       }
     })();
   }, [movieId]);
 
   return (
     <div className={styles.container}>
+      {isLoader && <Loader />}
       {cast && (
         <ul className={styles.list}>
           {cast.map(actor => (

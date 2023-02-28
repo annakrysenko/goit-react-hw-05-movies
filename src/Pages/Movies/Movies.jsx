@@ -1,4 +1,5 @@
 import Gallery from 'components/Gallery/Gallery';
+import { Loader } from 'components/Loader/Loader';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -8,6 +9,7 @@ import { getMovie } from 'Servises/moviesAPI';
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
+  const [isLoader, setIsLoader] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
@@ -21,14 +23,22 @@ const Movies = () => {
       return;
     }
     (async () => {
-      const { data } = await getMovie(query);
-      setMovies(data.results);
+      setIsLoader(true);
+      try {
+        const { data } = await getMovie(query);
+        setMovies(data.results);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoader(false);
+      }
     })();
   }, [query]);
 
   return (
     <>
       <Searchbar getMoviesFromInput={getMoviesFromInput} />
+      {isLoader && <Loader />}
       <Gallery movies={movies} location={location} />
     </>
   );
